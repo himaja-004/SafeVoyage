@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Give Feedback - SafeVoyage</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(-45deg, #0f2027, #203a43, #2c5364, #0f2027);
+      background-size: 400% 400%;
+      animation: gradientBG 15s ease infinite;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    h2 {
+      text-align: center;
+      color: #fff;
+      margin-bottom: 20px;
+    }
+
+    form {
+      background-color: rgba(255, 255, 255, 0.15);
+      padding: 30px;
+      border-radius: 20px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+      color: #fff;
+      max-width: 850px;
+      width: 100%;
+      margin: 20px;
+    }
+
+    h3 {
+      color: #f1f1f1;
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 5px;
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: 500;
+    }
+
+    input[type="text"], select, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border-radius: 10px;
+      border: none;
+      background-color: rgba(255, 255, 255, 0.2);
+      color: #fff;
+    }
+
+    input::placeholder, textarea::placeholder {
+      color: #ccc;
+    }
+
+    select {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+
+    button {
+      margin-top: 25px;
+      padding: 12px 25px;
+      background-color: #1e90ff;
+      color: white;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      display: block;
+      font-size: 16px;
+      transition: background-color 0.3s;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    button:hover {
+      background-color: #006ad1;
+    }
+
+    .section {
+      margin-top: 30px;
+    }
+  </style>
+</head>
+<body>
+  <div>
+    <h2>SafeVoyage - Safety Feedback</h2>
+    <form method="POST" action="/submit_feedback">
+      <label>Place</label>
+      <input type="text" name="place" required>
+
+      <label>Area Name</label>
+      <input type="text" name="area_name" required>
+
+      <div class="section">
+        <h3>General Safety</h3>
+        <label>How safe do you feel in this area?</label>
+        <select name="safety_rating">
+          <option>Very Safe</option>
+          <option>Safe</option>
+          <option>Neutral</option>
+          <option>Unsafe</option>
+          <option>Very Unsafe</option>
+        </select>
+
+        <label>Would you recommend this place for safety?</label>
+        <select name="recommend_score">
+          <option>Yes</option>
+          <option>No</option>
+        </select>
+
+        <label>Is there regular police patrolling?</label>
+        <select name="police_patrol">
+          <option>Frequently</option>
+          <option>Sometimes</option>
+          <option>Rarely</option>
+        </select>
+
+        <label>Have you witnessed any crimes?</label>
+        <select name="crime_witnessed">
+          <option>Yes</option>
+          <option>No</option>
+        </select>
+
+        <label>If yes, describe the crime</label>
+        <input type="text" name="crime_description">
+
+        <label>Is there a visible police/security presence?</label>
+        <select name="police_presence">
+          <option>Yes</option>
+          <option>No</option>
+        </select>
+      </div>
+
+      <div class="section">
+        <h3>Road & Traffic</h3>
+        <label>Rate road safety (1-Very Unsafe to 5-Very Safe)</label>
+        <select name="road_safety">
+          <option>1</option><option>2</option><option>3</option><option>4</option><option>5</option>
+        </select>
+
+        <label>Have you experienced traffic issues?</label>
+        <input type="text" name="traffic_issues">
+
+        <label>Are there enough traffic signals and signboards?</label>
+        <select name="traffic_signs">
+          <option>Yes</option>
+          <option>No</option>
+        </select>
+
+        <label>How well-lit is this area at night?</label>
+        <select name="lighting">
+          <option>Well-lit</option>
+          <option>Moderately Lit</option>
+          <option>Poorly Lit</option>
+        </select>
+      </div>
+
+      <div class="section">
+        <h3>Infrastructure & Surroundings</h3>
+        <label>Are there security cameras/emergency call stations?</label>
+        <select name="security_cameras">
+          <option>Yes</option>
+          <option>No</option>
+        </select>
+
+        <label>Are the roads/sidewalks well-maintained?</label>
+        <select name="road_condition">
+          <option>Yes</option>
+          <option>No</option>
+        </select>
+
+        <label>Is the area crowded or deserted at night?</label>
+        <select name="crowd">
+          <option>Crowded</option>
+          <option>Moderately Crowded</option>
+          <option>Deserted</option>
+        </select>
+
+        <label>Are there suspicious activities/groups?</label>
+        <select name="suspicious_activity">
+          <option>Yes</option>
+          <option>No</option>
+        </select>
+
+        <label>Do you see many homeless people or beggars?</label>
+        <select name="homeless_presence">
+          <option>Yes</option>
+          <option>No</option>
+        </select>
+      </div>
+
+      <button type="submit">Submit Feedback</button>
+    </form>
+  </div>
+</body>
+</html>

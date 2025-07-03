@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>SafeVoyage Home</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(-45deg, #a8edea, #fed6e3, #f5f7fa, #d0eaff);
+      background-size: 400% 400%;
+      animation: gradient 12s ease infinite;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      color: #333;
+    }
+
+    @keyframes gradient {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.9);
+      padding: 35px;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      width: 90%;
+      max-width: 500px;
+      text-align: center;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+      font-size: 30px;
+      color: #2c3e50;
+    }
+
+    .sos-button {
+      background-color: #e74c3c;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px 25px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      margin-bottom: 25px;
+    }
+
+    .sos-button:hover {
+      background-color: #c0392b;
+    }
+
+    input[type="text"], input[list] {
+      padding: 10px;
+      margin: 8px auto;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      width: 100%;
+      font-size: 16px;
+    }
+
+    button[type="submit"] {
+      padding: 10px 20px;
+      border-radius: 6px;
+      border: none;
+      background-color: #28a745;
+      color: white;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      margin-top: 12px;
+    }
+
+    button[type="submit"]:hover {
+      background-color: #218838;
+    }
+
+    .feedback-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+
+    .feedback-button {
+      padding: 10px 18px;
+      border-radius: 6px;
+      background-color: #007bff;
+      color: white;
+      font-size: 14px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background-color 0.3s ease;
+    }
+
+    .feedback-button:hover {
+      background-color: #0056b3;
+    }
+
+    @media (max-width: 500px) {
+      .container {
+        padding: 25px;
+      }
+
+      input[type="text"] {
+        width: 100%;
+      }
+
+      button[type="submit"],
+      .feedback-button {
+        width: 100%;
+      }
+
+      .feedback-buttons {
+        flex-direction: column;
+        gap: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Welcome to SafeVoyage</h1>
+    <button id="sosButton" class="sos-button" onclick="sendSOS()">🚨 Send SOS Alert</button>
+
+    <form action="/show_routes" method="POST">
+      <label for="source">Source:</label>
+      <input list="source-options" name="source" id="source" required>
+      <datalist id="source-options"></datalist>
+
+      <label for="destination">Destination:</label>
+      <input list="destination-options" name="destination" id="destination" required>
+      <datalist id="destination-options"></datalist>
+
+      <button type="submit">Get Safe Routes</button>
+    </form>
+
+    <div class="feedback-buttons">
+      <a href="/give_feedback" class="feedback-button">Give Feedback</a>
+      <a href="/view_feedback" class="feedback-button">View Feedback</a>
+    </div>
+  </div>
+
+  <script>
+    function sendSOS() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function (position) {
+          const lat = position.coords.latitude;
+          const lon = position.coords.longitude;
+
+          fetch('/send_sos', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ lat: lat, lon: lon })
+          })
+            .then(response => response.text())
+            .then(data => alert(data))
+            .catch(error => alert('Error sending SOS'));
+        });
+      } else {
+        alert('Geolocation is not supported by this browser.');
+      }
+    }
+
+    fetch('/get_area_names')
+      .then(response => response.json())
+      .then(areaNames => {
+        const sourceList = document.getElementById('source-options');
+        const destList = document.getElementById('destination-options');
+
+        areaNames.forEach(area => {
+          const option1 = document.createElement('option');
+          option1.value = area;
+          sourceList.appendChild(option1);
+
+          const option2 = document.createElement('option');
+          option2.value = area;
+          destList.appendChild(option2);
+        });
+      });
+  </script>
+</body>
+</html>

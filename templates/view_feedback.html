@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>View Feedback - SafeVoyage</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(-45deg, #0f2027, #203a43, #2c5364, #0f2027);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            max-width: 850px;
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.15);
+            padding: 30px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            color: #fff;
+            margin: 20px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #fff;
+            margin-bottom: 20px;
+        }
+
+        form {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            margin: 10px;
+            border-radius: 10px;
+            border: none;
+            background-color: rgba(255, 255, 255, 0.2);
+            color: #fff;
+            width: 45%;
+        }
+
+        input::placeholder {
+            color: #ccc;
+        }
+
+        button {
+            margin-top: 15px;
+            padding: 10px 25px;
+            background-color: #1e90ff;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #006ad1;
+        }
+
+        .feedback {
+            margin-top: 20px;
+        }
+
+        label {
+            font-weight: 500;
+            color: #ffd;
+        }
+
+        p {
+            margin: 8px 0;
+        }
+
+        .note {
+            color: #ffaaaa;
+            text-align: center;
+            font-size: 16px;
+        }
+
+        .comments {
+            background-color: rgba(255, 255, 255, 0.2);
+            border-left: 4px solid #1e90ff;
+            padding: 10px 15px;
+            margin-top: 15px;
+            border-radius: 10px;
+        }
+
+        ul {
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 6px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>Feedback Summary</h2>
+
+    <form method="POST">
+        <input type="text" name="place" placeholder="Enter Place" required>
+        <input type="text" name="area_name" placeholder="Enter Area Name" required><br>
+        <button type="submit">View Feedback</button>
+    </form>
+
+    {% if no_data %}
+        <p class="note">No feedback data available for <strong>{{ place }}</strong>, <strong>{{ area_name }}</strong>.</p>
+    {% else %}
+        <div class="feedback">
+            <p><label>Location:</label> {{ place }}, {{ area_name }}</p>
+            <p><label>Average Safety Rating:</label> {{ safety_avg }}</p>
+            <p><label>Recommendation Score:</label> {{ recommend_avg }}</p>
+            <p><label>Police Patrol:</label> {{ police_patrol_avg }}</p>
+            <p><label>Crime Witnessed:</label> {{ crime_witnessed_avg }}</p>
+            <p><label>Road Safety:</label> {{ road_safety_avg }}</p>
+            <p><label>Traffic Issues:</label> {{ traffic_issues_avg }}</p>
+            <p><label>Traffic Signs:</label> {{ traffic_signs_avg }}</p>
+            <p><label>Lighting:</label> {{ lighting_avg }}</p>
+            <p><label>Security Cameras:</label> {{ security_cameras_avg }}</p>
+            <p><label>Road Condition:</label> {{ road_condition_avg }}</p>
+            <p><label>Crowd:</label> {{ crowd_avg }}</p>
+            <p><label>Suspicious Activity:</label> {{ suspicious_activity_avg }}</p>
+            <p><label>Homeless Presence:</label> {{ homeless_presence_avg }}</p>
+
+            {% if crime_description_comments %}
+                <div class="comments">
+                    <label>Crime Descriptions:</label>
+                    <ul>
+                        {% for comment in crime_description_comments %}
+                            <li>{{ comment }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+
+            {% if traffic_issues_comments %}
+                <div class="comments">
+                    <label>Traffic Issues:</label>
+                    <ul>
+                        {% for comment in traffic_issues_comments %}
+                            <li>{{ comment }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+        </div>
+    {% endif %}
+</div>
+</body>
+</html>
