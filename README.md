@@ -132,5 +132,3 @@ Send SOS alerts with live location to emergency contacts.
    ```
 
 6. Open browser at `http://localhost:5000`.
-
->>>>>>> a3d7e33723d33deb7b47629b1afac377c51a0a5a
