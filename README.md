@@ -1,5 +1,5 @@
 
-## SafeVoyage: Intelligent Routing and Real-Time Risk Alearts for Safe Travel
+## SafeVoyage: Intelligent Routing and Real-Time Risk Alerts for Safe Travel
 
 SafeVoyage is a smart web-based navigation assistant that prioritizes user safety by analyzing routes using real-time and historical data, visualizing safety levels, and enabling community feedback. It helps users select the safest path to their destination and can send SOS alerts to emergency contacts.
 
